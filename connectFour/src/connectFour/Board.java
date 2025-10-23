@@ -2,8 +2,25 @@ package connectFour;
 
 public class Board {
 
+	private int[][] board;
+	public int latestPiece;
+	
 	public Board() {
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	public enum pieceColor {
+		RED, 
+		YELLOW
+	}
+	
+	public boolean checkWinner(int[][] board) {
+		return true;
+	}
+	
+	public void dropPiece(int piece) {
+		
+	}
+	
 
 }
