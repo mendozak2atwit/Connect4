@@ -11,7 +11,7 @@ public class Board {
 		
 		InitializeState();
 		
-	}
+	} //end Board()
 	
 	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
 	public enum pieceColor {
@@ -23,18 +23,20 @@ public class Board {
 		
 		private pieceColor(int piece){
 			this.pieceValue = piece;
-		}
+		} //end pieceColor
 		
 		public int getPiece() {
 			return pieceValue;
-		}
-	}
+			
+		} //end getPiece
+		
+	} //end enum pieceColor
 	
 	//Checks to see if there's four of the same color in a row, vertically, horizontally, and 
 	public boolean checkWinner(int[][] board) {
 		
 		return true;
-	}
+	} //end checkWinner
 		
 	
 	//checks if a piece can be placed in the specific part of the board (makes sure that the column is not full)
@@ -49,12 +51,12 @@ public class Board {
 		if(this.board[i][placePiece] == emptyPlace) {
 			return true;
 			
-		}
-	}
+		} //end if
+	} //end for
 		
 		return false;
 		
-	}
+	} //end checkDropPiece
 	
 	//puts the piece into the desired spot on the board
 	
@@ -70,15 +72,16 @@ public class Board {
 				if(this.board[i][placePiece] != emptyPlace) {
 					
 					this.board[i][placePiece] = piece;
-				}
-			}
-		}else {
+				} //end if
+			} //end for
+		} //end if
+		else {
 			
 			System.out.print("Column is full!");
 			
-		}
+		} //end else
 		
-	}
+	} //end dropPiece
 	
 	//Initializes the state of the board by making all spaces EMPTY(0) (could also make the spaces null to make things simpler, will come back to later)
 	public void InitializeState() {
@@ -88,10 +91,10 @@ public class Board {
 		for(int i = 0; i < this.board.length; i++) {
 			for(int j = 0; j < this.board[i].length; j++) {
 				this.board[i][j] = emptyPlace;
-			}
-		}
+			} //end for
+		} //end for
 		
-	}
+	} //end InitializeState
 	
 	//helper methods
 	
@@ -100,18 +103,19 @@ public class Board {
 	private boolean checkWinnerVertically() {
 		for(int i = 0; i < boardLength; i++) {
 			
-		}
+		} //end for
 		
 		return true;
-	}
+	} //end checkWinnerVertically
+	
 	
 	private boolean checkWinnerHorizontally() {
 		for(int i = 0; i < boardHeight; i++) {
 			
-		}
+		} //end for
 		
 		return true;
-	}
+	} //end checkWinnerHorizontally
 	
 	//Have to figure out an algorithm to figure this out ( this one will be hard )
 	//idea 1: when a colored piece is found on the board, check across to see if that same color piece appears 4 in a row
@@ -119,6 +123,6 @@ public class Board {
 	private boolean checkWinnerAcross() {
 		
 		return true;
-	}
+	} //end checkWinnerAcross
 
-}
+} //end
