@@ -14,6 +14,8 @@ public class Board {
 	} //end Board()
 	
 	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
+	
+	
 	public enum pieceColor {
 		EMPTY(0),
 		RED(1), 
@@ -33,30 +35,41 @@ public class Board {
 	} //end enum pieceColor
 	
 	//Checks to see if there's four of the same color in a row, vertically, horizontally, and 
-	public boolean checkWinner(int[][] board) {
+	public boolean checkWinner(pieceColor color) {
 		
-		if(checkWinnerVertically(pieceColor.RED) || checkWinnerAcross(pieceColor.RED) || checkWinnerHorizontally(pieceColor.RED)){
-			return true;
-		}
-		
-		if(checkWinnerVertically(pieceColor.YELLOW) || checkWinnerAcross(pieceColor.YELLOW) || checkWinnerHorizontally(pieceColor.YELLOW)){
+		if(checkWinnerVertically(color) || checkWinnerAcross(color) || checkWinnerHorizontally(color)){
 			return true;
 		}
 		
 		return false;
 	} //end checkWinner
+	
+	
+	//Checks a full board to see if there's a tie (assume board is already completely full)
+	public boolean checkFullBoard() {
 		
+		int empty = pieceColor.EMPTY.getPiece();
+		
+		for(int h = 0; h < boardHeight; h++) {
+			for(int l = 0; l < boardLength; l++) {
+				if(this.board[h][l] == empty) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
 	
 	//checks if a piece can be placed in the specific part of the board (makes sure that the column is not full)
 	
 	public boolean checkDropPiece(int placePiece) {
 		
-	pieceColor empty = pieceColor.EMPTY;
-	int emptyPlace = empty.getPiece();
+	int empty = pieceColor.EMPTY.getPiece();
 		
 	for(int i = 0; i < this.board.length; i++) {
 		
-		if(this.board[i][placePiece] == emptyPlace) {
+		if(this.board[i][placePiece] == empty) {
 			return true;
 			
 		} //end if
@@ -70,14 +83,13 @@ public class Board {
 	
 	public void dropPiece(int piece, int placePiece) {
 		
-		pieceColor empty = pieceColor.EMPTY;
-		int emptyPlace = empty.getPiece();
+		int empty = pieceColor.EMPTY.getPiece();
 		
 		if(checkDropPiece(placePiece)) {
 			
 			for(int i = 0; i < this.board.length; i++) {
 				
-				if(this.board[i][placePiece] != emptyPlace) {
+				if(this.board[i][placePiece] != empty) {
 					
 					this.board[i][placePiece] = piece;
 				} //end if
@@ -93,12 +105,11 @@ public class Board {
 	
 	//Initializes the state of the board by making all spaces EMPTY(0) (could also make the spaces null to make things simpler, will come back to later)
 	public void InitializeState() {
-		pieceColor empty = pieceColor.EMPTY;
-		int emptyPlace = empty.getPiece();
+		int empty = pieceColor.EMPTY.getPiece();
 		
 		for(int i = 0; i < this.board.length; i++) {
 			for(int j = 0; j < this.board[i].length; j++) {
-				this.board[i][j] = emptyPlace;
+				this.board[i][j] = empty;
 			} //end for
 		} //end for
 		
