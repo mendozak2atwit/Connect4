@@ -15,6 +15,7 @@ public class ConnectServer {
 			
 			byte[] receiveData = new byte[1024];
 			
+			// receive
 			while(true) {
 				 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	             serverSocket.receive(receivePacket);

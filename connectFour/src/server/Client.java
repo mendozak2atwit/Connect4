@@ -26,7 +26,6 @@ public class Client
             try (DatagramSocket clientSocket = new DatagramSocket(); Scanner input = new Scanner(System.in)) {
                 String serverName;
                 do {
-                    // message can be changed if you want this is just temp stuff until
                     System.out.printf("Enter the ip address: ");
                     serverName = input.next();
                     // please let this be a valid ip address
