@@ -9,18 +9,9 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-/**
- * 
- * @author kmp
- *
- * @version 1.0 2025-10-29 Initial implementation
- *
- *
- * @since 1.0
- */
 public class Client
     {
-        final int SERVER_PORT = 9154;
+        final static int SERVER_PORT = 9154;
     
         private static boolean validateIp(String ip) {
             try {
@@ -36,11 +27,32 @@ public class Client
                 String serverName;
                 do {
                     // message can be changed if you want this is just temp stuff until
-                    System.out.printf("Enter the turi ip ip ip ip ip address: ");
+                    System.out.printf("Enter the ip address: ");
                     serverName = input.next();
                     // please let this be a valid ip address
                 } while(!validateIp(serverName));
                 System.out.println(serverName);
+                
+                InetAddress serverAddress = InetAddress.getByName(serverName);
+                
+                String message = "Ready to play!";
+                byte[] sendData = message.getBytes();
+
+                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, SERVER_PORT);
+                clientSocket.send(sendPacket);
+                
+                System.out.println("Sent to server: " + message);
+
+                byte[] receiveData = new byte[1024];
+
+                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                //DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length + 1);
+
+                clientSocket.receive(receivePacket); // Blocks until a packet is received
+
+                String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                System.out.println("Received from server: " + response);
+                
                 input.close();
             } catch (SocketException e) {
                 System.err.println("Socket error: " + e.getMessage());
