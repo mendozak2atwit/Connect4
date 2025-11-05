@@ -2,9 +2,9 @@ package connectFour;
 
 public class Board {
 
-	private int[][] board = new int[6][7];
-	private int boardHeight = 6;
-	private int boardLength = 7;
+	public int[][] board = new int[6][7];
+	public int boardHeight = 6;
+	public int boardLength = 7;
 	public int latestPiece;
 	
 	public Board() {
@@ -16,7 +16,7 @@ public class Board {
 	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
 	
 	
-	public enum pieceColor {
+	private enum pieceColor {
 		EMPTY(0),
 		RED(1), 
 		YELLOW(2);
@@ -104,7 +104,7 @@ public class Board {
 	} //end dropPiece
 	
 	//Initializes the state of the board by making all spaces EMPTY(0) (could also make the spaces null to make things simpler, will come back to later)
-	public void InitializeState() {
+	private void InitializeState() {
 		int empty = pieceColor.EMPTY.getPiece();
 		
 		for(int i = 0; i < this.board.length; i++) {
@@ -124,9 +124,9 @@ public class Board {
 		int findColor = color.getPiece();
 		int counter = 0;
 		
-		for(int i = 0; i < boardLength; i++) {
-			for(int j = 0; j < boardHeight; j++) {
-				if(this.board[j][i] == findColor) {
+		for(int h = 0; h < boardLength; h++) {
+			for(int l = 0; l < boardHeight; l++) {
+				if(this.board[h][l] == findColor) {
 					counter++;
 					
 				}else {
@@ -148,18 +148,80 @@ public class Board {
 	
 	
 	private boolean checkWinnerHorizontally(pieceColor color) {
-		for(int i = 0; i < boardHeight; i++) {
-			
-		} //end for
+		int findColor = color.getPiece();
+		int counter = 0;
 		
-		return true;
+		for(int l = 0; l < boardHeight; l++) {
+			for(int h = 0; h < boardLength; h++) {
+				if(this.board[h][l] == findColor) {
+					counter++;
+					
+				}else {
+					counter = 0;
+					
+				}
+				
+				if(counter == 4) {
+					return true;
+					
+				}
+			}
+		
+	} //end for
+	
+	return false;
+		
 	} //end checkWinnerHorizontally
 	
 	//Have to figure out an algorithm to figure this out ( this one will be hard )
 	//idea 1: when a colored piece is found on the board, check across to see if that same color piece appears 4 in a row
 	
 	private boolean checkWinnerAcross(pieceColor color) {
+		int findColor = color.getPiece();
+		int counter = 0;
 		
+		for(int h = 0; h < boardHeight; h++) {
+			for(int l = 0; l < boardLength; l++) {
+				if(this.board[h][l] == findColor) {
+					
+					counter = 0;
+					int consecuativeLength = l ;
+					int consecuativeHeight = h ;
+					boolean isConsecuative = true;
+					
+					while (isConsecuative) {
+						
+						if(this.board[consecuativeLength+1][consecuativeHeight+1] == findColor || this.board[consecuativeLength+1][consecuativeHeight-1] == findColor) {
+							counter++;
+						}
+						
+						else {
+							counter = 0;
+							isConsecuative = false;	
+						}
+						
+						consecuativeHeight++;;
+
+						consecuativeLength++;
+					
+					}
+			
+				}
+				
+				else {
+					counter = 0;
+					
+				}
+				
+				if(counter == 4) {
+					return true;
+					
+				}
+			}
+		
+		return false;
+
+	}
 		return true;
 	} //end checkWinnerAcross
 
