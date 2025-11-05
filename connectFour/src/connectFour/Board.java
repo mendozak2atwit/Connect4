@@ -3,41 +3,54 @@ package connectFour;
 import java.util.Arrays;
 
 public class Board {
-
-	//CHANGE ANYTHING THAT'S STATIC BACK AFTER TESTING IS DONE
 	
-	public static int[][] board = new int[6][7]; //take away static when done testing
-	public static int boardHeight = 6;
-	public static int boardLength = 7;
-	public static int latestPiece;
+	static String[][] board = new String[6][7];
+	static int boardHeight = 6;
+	static int boardLength = 7;
+	static char latestPiece;
 	
 	public Board() {
 		
-		InitializeState();
+		//board = new char[6][7];
 		
 	} //end Board()
 	
 	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
 	
 	
-	public static void printBoard() {
+	public static void newBoard() {
+		String empty = pieceColor.EMPTY.getPiece();
 		
-		System.out.println(Arrays.deepToString(board).replace("], ", "]\n"));
-		
+		for(int h = 0; h < boardHeight; h++) {
+			for(int l = 0; l < boardLength; l++) {
+				board[h][l] = empty;
+			}
+		}
 	}
 	
-	private enum pieceColor {
-		EMPTY(0),
-		RED(1), 
-		YELLOW(2);
+	public static void printBoard() {
+	
+		for(int h = 0; h < boardHeight; h++) {
+			for(int l = 0; l < boardLength; l++) {
+				System.out.print(board[h][l]);
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+	
+	public enum pieceColor {
+		EMPTY(" - "),
+		RED(" R "), 
+		YELLOW(" Y ");
 		
-		private final int pieceValue;
+		private final String pieceValue;
 		
-		private pieceColor(int piece){
+		private pieceColor(String piece){
 			this.pieceValue = piece;
 		} //end pieceColor
 		
-		public int getPiece() {
+		public String getPiece() {
 			return pieceValue;
 			
 		} //end getPiece
@@ -58,7 +71,7 @@ public class Board {
 	//Checks a full board to see if there's a tie (assume board is already completely full)
 	public static boolean checkFullBoard() {
 		
-		int empty = pieceColor.EMPTY.getPiece();
+		String empty = pieceColor.EMPTY.getPiece();
 		
 		for(int h = 0; h < boardHeight; h++) {
 			for(int l = 0; l < boardLength; l++) {
@@ -75,7 +88,7 @@ public class Board {
 	
 	public static boolean checkDropPiece(int placePiece) {
 		
-	int empty = pieceColor.EMPTY.getPiece();
+	String empty = pieceColor.EMPTY.getPiece();
 		
 	for(int i = 0; i < board.length; i++) {
 		
@@ -91,39 +104,24 @@ public class Board {
 	
 	//puts the piece into the desired spot on the board
 	
-	public static void dropPiece(int piece, int placePiece) {
+	public static void dropPiece(String piece, int placePiece) {
 		
-		int empty = pieceColor.EMPTY.getPiece();
+		String empty = pieceColor.EMPTY.getPiece();
 		
-		if(checkDropPiece(placePiece)) {
+		if(checkDropPiece(placePiece) == true) {
 			
-			for(int i = 0; i < board.length; i++) {
+			for(int i = 5; i >= 0; i--) {
 				
-				if(board[i][placePiece] != empty) {
+				if(board[i][placePiece] == empty) {
 					
 					board[i][placePiece] = piece;
+					return;
 				} //end if
 			} //end for
 		} //end if
-		else {
-			
-			System.out.print("Column is full!");
-			
-		} //end else
-		
 	} //end dropPiece
 	
 	//Initializes the state of the board by making all spaces EMPTY(0) (could also make the spaces null to make things simpler, will come back to later)
-	private void InitializeState() {
-		int empty = pieceColor.EMPTY.getPiece();
-		
-		for(int i = 0; i < board.length; i++) {
-			for(int j = 0; j < board[i].length; j++) {
-				board[i][j] = empty;
-			} //end for
-		} //end for
-		
-	} //end InitializeState
 	
 	//helper methods
 	
@@ -131,7 +129,7 @@ public class Board {
 	
 	private static boolean checkWinnerVertically(pieceColor color) {
 		
-		int findColor = color.getPiece();
+		String findColor = color.getPiece();
 		int counter = 0;
 		
 		for(int h = 0; h < boardLength; h++) {
@@ -158,7 +156,7 @@ public class Board {
 	
 	
 	private static boolean checkWinnerHorizontally(pieceColor color) {
-		int findColor = color.getPiece();
+		String findColor = color.getPiece();
 		int counter = 0;
 		
 		for(int l = 0; l < boardHeight; l++) {
@@ -187,7 +185,7 @@ public class Board {
 	//idea 1: when a colored piece is found on the board, check across to see if that same color piece appears 4 in a row
 	
 	private static boolean checkWinnerAcross(pieceColor color) {
-		int findColor = color.getPiece();
+		String findColor = color.getPiece();
 		int counter = 0;
 		
 		for(int h = 0; h < boardHeight; h++) {
