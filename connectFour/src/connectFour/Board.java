@@ -1,11 +1,15 @@
 package connectFour;
 
+import java.util.Arrays;
+
 public class Board {
 
-	public int[][] board = new int[6][7];
-	public int boardHeight = 6;
-	public int boardLength = 7;
-	public int latestPiece;
+	//CHANGE ANYTHING THAT'S STATIC BACK AFTER TESTING IS DONE
+	
+	public static int[][] board = new int[6][7]; //take away static when done testing
+	public static int boardHeight = 6;
+	public static int boardLength = 7;
+	public static int latestPiece;
 	
 	public Board() {
 		
@@ -15,6 +19,12 @@ public class Board {
 	
 	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
 	
+	
+	public static void printBoard() {
+		
+		System.out.println(Arrays.deepToString(board).replace("], ", "]\n"));
+		
+	}
 	
 	private enum pieceColor {
 		EMPTY(0),
@@ -35,7 +45,7 @@ public class Board {
 	} //end enum pieceColor
 	
 	//Checks to see if there's four of the same color in a row, vertically, horizontally, and 
-	public boolean checkWinner(pieceColor color) {
+	public static boolean checkWinner(pieceColor color) {
 		
 		if(checkWinnerVertically(color) || checkWinnerAcross(color) || checkWinnerHorizontally(color)){
 			return true;
@@ -46,13 +56,13 @@ public class Board {
 	
 	
 	//Checks a full board to see if there's a tie (assume board is already completely full)
-	public boolean checkFullBoard() {
+	public static boolean checkFullBoard() {
 		
 		int empty = pieceColor.EMPTY.getPiece();
 		
 		for(int h = 0; h < boardHeight; h++) {
 			for(int l = 0; l < boardLength; l++) {
-				if(this.board[h][l] == empty) {
+				if(board[h][l] == empty) {
 					return false;
 				}
 			}
@@ -63,13 +73,13 @@ public class Board {
 	
 	//checks if a piece can be placed in the specific part of the board (makes sure that the column is not full)
 	
-	public boolean checkDropPiece(int placePiece) {
+	public static boolean checkDropPiece(int placePiece) {
 		
 	int empty = pieceColor.EMPTY.getPiece();
 		
-	for(int i = 0; i < this.board.length; i++) {
+	for(int i = 0; i < board.length; i++) {
 		
-		if(this.board[i][placePiece] == empty) {
+		if(board[i][placePiece] == empty) {
 			return true;
 			
 		} //end if
@@ -81,17 +91,17 @@ public class Board {
 	
 	//puts the piece into the desired spot on the board
 	
-	public void dropPiece(int piece, int placePiece) {
+	public static void dropPiece(int piece, int placePiece) {
 		
 		int empty = pieceColor.EMPTY.getPiece();
 		
 		if(checkDropPiece(placePiece)) {
 			
-			for(int i = 0; i < this.board.length; i++) {
+			for(int i = 0; i < board.length; i++) {
 				
-				if(this.board[i][placePiece] != empty) {
+				if(board[i][placePiece] != empty) {
 					
-					this.board[i][placePiece] = piece;
+					board[i][placePiece] = piece;
 				} //end if
 			} //end for
 		} //end if
@@ -107,9 +117,9 @@ public class Board {
 	private void InitializeState() {
 		int empty = pieceColor.EMPTY.getPiece();
 		
-		for(int i = 0; i < this.board.length; i++) {
-			for(int j = 0; j < this.board[i].length; j++) {
-				this.board[i][j] = empty;
+		for(int i = 0; i < board.length; i++) {
+			for(int j = 0; j < board[i].length; j++) {
+				board[i][j] = empty;
 			} //end for
 		} //end for
 		
@@ -119,14 +129,14 @@ public class Board {
 	
 	//These methods help check for the winner depending on the way the chips are placed on the board
 	
-	private boolean checkWinnerVertically(pieceColor color) {
+	private static boolean checkWinnerVertically(pieceColor color) {
 		
 		int findColor = color.getPiece();
 		int counter = 0;
 		
 		for(int h = 0; h < boardLength; h++) {
 			for(int l = 0; l < boardHeight; l++) {
-				if(this.board[h][l] == findColor) {
+				if(board[h][l] == findColor) {
 					counter++;
 					
 				}else {
@@ -147,13 +157,13 @@ public class Board {
 	} //end checkWinnerVertically
 	
 	
-	private boolean checkWinnerHorizontally(pieceColor color) {
+	private static boolean checkWinnerHorizontally(pieceColor color) {
 		int findColor = color.getPiece();
 		int counter = 0;
 		
 		for(int l = 0; l < boardHeight; l++) {
 			for(int h = 0; h < boardLength; h++) {
-				if(this.board[h][l] == findColor) {
+				if(board[h][l] == findColor) {
 					counter++;
 					
 				}else {
@@ -176,13 +186,13 @@ public class Board {
 	//Have to figure out an algorithm to figure this out ( this one will be hard )
 	//idea 1: when a colored piece is found on the board, check across to see if that same color piece appears 4 in a row
 	
-	private boolean checkWinnerAcross(pieceColor color) {
+	private static boolean checkWinnerAcross(pieceColor color) {
 		int findColor = color.getPiece();
 		int counter = 0;
 		
 		for(int h = 0; h < boardHeight; h++) {
 			for(int l = 0; l < boardLength; l++) {
-				if(this.board[h][l] == findColor) {
+				if(board[h][l] == findColor) {
 					
 					counter = 0;
 					int consecuativeLength = l ;
@@ -191,7 +201,7 @@ public class Board {
 					
 					while (isConsecuative) {
 						
-						if(this.board[consecuativeLength+1][consecuativeHeight+1] == findColor || this.board[consecuativeLength+1][consecuativeHeight-1] == findColor) {
+						if(board[consecuativeLength+1][consecuativeHeight+1] == findColor || board[consecuativeLength+1][consecuativeHeight-1] == findColor) {
 							counter++;
 						}
 						
@@ -225,4 +235,5 @@ public class Board {
 		return true;
 	} //end checkWinnerAcross
 
+	//use for debugging
 } //end
