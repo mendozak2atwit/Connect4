@@ -8,6 +8,8 @@ public class Board {
 	static int boardHeight = 6;
 	static int boardLength = 7;
 	static char latestPiece;
+	static boolean winner = false;
+	static int currentTurn = 0; //0 means first player (RED) 1 means second (YELLOW)
 	
 	public Board() {
 		
@@ -15,9 +17,7 @@ public class Board {
 		
 	} //end Board()
 	
-	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
-	
-	
+	//Creates a new empty board
 	public static void newBoard() {
 		String empty = pieceColor.EMPTY.getPiece();
 		
@@ -28,6 +28,7 @@ public class Board {
 		}
 	}
 	
+	//prints out the current state of the board
 	public static void printBoard() {
 	
 		for(int h = 0; h < boardHeight; h++) {
@@ -39,6 +40,16 @@ public class Board {
 		System.out.println();
 	}
 	
+	public static void swapTurns() {
+		if(currentTurn == 0) {
+			currentTurn = 1;
+		}else {
+			currentTurn = 0;
+		}
+		
+	}
+	
+	//Gives the states that a place in the board can have: a red piece, yellow piece, or the place on the board is empty
 	public enum pieceColor {
 		EMPTY(" - "),
 		RED(" R "), 
@@ -58,13 +69,11 @@ public class Board {
 	} //end enum pieceColor
 	
 	//Checks to see if there's four of the same color in a row, vertically, horizontally, and 
-	public static boolean checkWinner(pieceColor color) {
+	public static void checkWinner(String playerOneColor) {
 		
-		if(checkWinnerVertically(color) || checkWinnerAcross(color) || checkWinnerHorizontally(color)){
-			return true;
+		if(checkWinnerVertically(playerOneColor)  || checkWinnerHorizontally(playerOneColor)){
+			winner = true;
 		}
-		
-		return false;
 	} //end checkWinner
 	
 	
@@ -127,14 +136,13 @@ public class Board {
 	
 	//These methods help check for the winner depending on the way the chips are placed on the board
 	
-	private static boolean checkWinnerVertically(pieceColor color) {
+	private static boolean checkWinnerVertically(String color) {
 		
-		String findColor = color.getPiece();
 		int counter = 0;
 		
-		for(int h = 0; h < boardLength; h++) {
-			for(int l = 0; l < boardHeight; l++) {
-				if(board[h][l] == findColor) {
+		for(int h = 0; h < boardHeight; h++) {
+			for(int l = 0; l < boardLength; l++) {
+				if(board[h][l] == color) {
 					counter++;
 					
 				}else {
@@ -155,13 +163,13 @@ public class Board {
 	} //end checkWinnerVertically
 	
 	
-	private static boolean checkWinnerHorizontally(pieceColor color) {
-		String findColor = color.getPiece();
+	private static boolean checkWinnerHorizontally(String color) {
+
 		int counter = 0;
 		
-		for(int l = 0; l < boardHeight; l++) {
-			for(int h = 0; h < boardLength; h++) {
-				if(board[h][l] == findColor) {
+		for(int l = 0; l < boardLength; l++) {
+			for(int h = 0; h < boardHeight; h++) {
+				if(board[h][l] == color) {
 					counter++;
 					
 				}else {
@@ -184,13 +192,13 @@ public class Board {
 	//Have to figure out an algorithm to figure this out ( this one will be hard )
 	//idea 1: when a colored piece is found on the board, check across to see if that same color piece appears 4 in a row
 	
-	private static boolean checkWinnerAcross(pieceColor color) {
-		String findColor = color.getPiece();
+	private static boolean checkWinnerAcross(String color) {
+
 		int counter = 0;
 		
 		for(int h = 0; h < boardHeight; h++) {
 			for(int l = 0; l < boardLength; l++) {
-				if(board[h][l] == findColor) {
+				if(board[h][l] == color) {
 					
 					counter = 0;
 					int consecuativeLength = l ;
@@ -199,7 +207,7 @@ public class Board {
 					
 					while (isConsecuative) {
 						
-						if(board[consecuativeLength+1][consecuativeHeight+1] == findColor || board[consecuativeLength+1][consecuativeHeight-1] == findColor) {
+						if(board[consecuativeLength+1][consecuativeHeight+1] == color || board[consecuativeLength+1][consecuativeHeight-1] == color) {
 							counter++;
 						}
 						
