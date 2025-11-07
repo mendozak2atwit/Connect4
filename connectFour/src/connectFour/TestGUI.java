@@ -18,6 +18,7 @@ public class TestGUI implements ActionListener{
 	private JLabel label;
 	private JFrame frame;
 	private JButton button;
+	private JButton button2;
 	private JPanel panel;
 	
 	//Setting up the UI
@@ -27,12 +28,16 @@ public class TestGUI implements ActionListener{
 		button = new JButton("Click Me!"); //Creates a button that the user can press and name
 		button.addActionListener(this);
 		
+		button2 = new JButton("Click Me Too!");
+		button2.addActionListener(this);
+		
 		label = new JLabel("Number of Clicks: 0"); //creates a label
 		
 		panel = new JPanel();
 		panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
 		panel.setLayout(new GridLayout(0, 1));
 		panel.add(button);
+		panel.add(button2);
 		panel.add(label);
 		
 		frame.add(panel, BorderLayout.CENTER); //adds panel to frame
