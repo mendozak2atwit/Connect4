@@ -10,53 +10,53 @@ import java.util.Scanner;
 
 public class Client {
 
-	final static int SERVER_PORT = 9154;
-    
-    private static boolean validateIp(String ip) {
-        try {
-            InetAddress.getByName(ip);
-            return true;
-        } catch(UnknownHostException e) {
-            return false;
-        }
-    }
+    final static int SERVER_PORT = 9154;
     
     public static void main(String[] args) {
-        try (DatagramSocket clientSocket = new DatagramSocket(); Scanner input = new Scanner(System.in)) {
-            String serverName;
-            do {
+        boolean help = false;
+        String serverName;
+        InetAddress serverAddress;
+        Scanner input = new Scanner(System.in);
+        do {
+            try {
+                // ask ip
                 System.out.printf("Enter the ip address: ");
                 serverName = input.next();
-                // please let this be a valid ip address
-            } while(!validateIp(serverName));
-            System.out.println(serverName);
-            
-            InetAddress serverAddress = InetAddress.getByName(serverName);
-            
-            String message = "Ready to play!";
-            byte[] sendData = message.getBytes();
-
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, SERVER_PORT);
-            clientSocket.send(sendPacket);
-            
-            System.out.println("Sent to server: " + message);
-
-            byte[] receiveData = new byte[1024];
-
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            //DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length + 1);
-
-            clientSocket.receive(receivePacket); // Blocks until a packet is received
-
-            String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            System.out.println("Received from server: " + response);
-            
-            input.close();
-        } catch (SocketException e) {
-            System.err.println("Socket error: " + e.getMessage());
-        } catch (IOException e) {
-            System.err.println("I/O error: " + e.getMessage());
-        } 
+                
+                System.out.println(serverName);
+                
+                // attempt to connect
+                serverAddress = InetAddress.getByName(serverName);
+                
+                String message = "Ready to play!";
+                byte[] sendData = message.getBytes();
+                
+                // send to server
+                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, SERVER_PORT);
+                DatagramSocket clientSocket = new DatagramSocket();
+                clientSocket.send(sendPacket);
+                System.out.println("Sent to server: " + message);
+                
+                // receive confirmation
+                byte[] receiveData = new byte[1024];
+                
+                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+    
+                clientSocket.receive(receivePacket); // Blocks until a packet is received
+    
+                String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                System.out.println("Received from server: " + response);
+                
+                help = false;
+            } catch (SocketException e) {
+                help = true;
+            } catch (UnknownHostException e) {
+                help = true;
+            } catch (IOException e) {
+                help = true;
+            }
+        } while (help);
+        input.close();
     }
 
 }
