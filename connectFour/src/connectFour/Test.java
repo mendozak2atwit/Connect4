@@ -18,6 +18,8 @@ public class Test {
 		System.out.println("Player two is Yellow!");
 		
 		while(Board.winner == false) {
+		
+			@SuppressWarnings("resource")
 		Scanner placeInput = new Scanner(System.in);
 		int place = 0;
 		

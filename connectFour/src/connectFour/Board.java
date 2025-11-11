@@ -1,19 +1,15 @@
 package connectFour;
 
-import java.util.Arrays;
-
 public class Board {
 	
 	static String[][] board = new String[6][7];
 	static int boardHeight = 6;
 	static int boardLength = 7;
 	static char latestPiece;
-	static boolean winner = false;
-	static int currentTurn = 0; //0 means first player (RED) 1 means second (YELLOW)
+	public static boolean winner = false;
+	public static int currentTurn = 0; //0 means first player (RED) 1 means second (YELLOW)
 	
 	public Board() {
-		
-		//board = new char[6][7];
 		
 	} //end Board()
 	
@@ -190,14 +186,11 @@ public class Board {
 	
 	private static boolean checkLeftDiagonalWinner(String pieceColor) {
 
-		for (int i = 0; i < boardHeight - 3; i++) {
-			for(int j = 0; j <= boardLength - 3; j++) {
-				try {
-				if((board[i][j] == pieceColor) && (board[i+1][j+1] == pieceColor) && (board[i+2][j+2] == pieceColor) && (board[i+3][i+3] == pieceColor)) {
+		for (int i = 5; i < boardHeight - 3; i--) {
+			for(int j = 4; j < 0; j--) {
+				
+				if((board[i][j] == pieceColor) && (board[i-1][j+1] == pieceColor) && (board[i-2][j+2] == pieceColor) && (board[i-3][i+3] == pieceColor)) {
 					return true;
-				}
-				}catch(ArrayIndexOutOfBoundsException e) {
-					return false;
 				}
 			}
 		}
@@ -206,15 +199,12 @@ public class Board {
 	
 	private static boolean checkRightDiagonalWinner(String pieceColor) {
 
-		for (int i = 0; i < boardHeight - 3; i++) {
-			for(int j = 3; j < boardLength; j++) {
-				try {
-				if((board[i][j] == pieceColor) && (board[i+1][j-1] == pieceColor) && (board[i+2][j-2] == pieceColor) && (board[i+3][i-3] == pieceColor)) {
+		for (int i = 5; i < boardHeight - 3; i--) {
+			for(int j = 4; j < 0; j--) {
+				
+				if((board[i][j] == pieceColor) && (board[i+1][j+1] == pieceColor) && (board[i+2][j+2] == pieceColor) && (board[i+3][i+3] == pieceColor)) {
 				return true;
-				}
-				}catch(ArrayIndexOutOfBoundsException e) {
-					return false;
-				}
+				}				
 			}
 		}
 		return false;
