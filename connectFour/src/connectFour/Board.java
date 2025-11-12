@@ -186,10 +186,10 @@ public class Board {
 	
 	private static boolean checkLeftDiagonalWinner(String pieceColor) {
 
-		for (int i = 5; i < boardHeight - 3; i--) {
-			for(int j = 4; j < 0; j--) {
+		for (int i = 0; i <= 2; i++) {
+			for(int j = 0; j <= 3; j++) {
 				
-				if((board[i][j] == pieceColor) && (board[i-1][j+1] == pieceColor) && (board[i-2][j+2] == pieceColor) && (board[i-3][i+3] == pieceColor)) {
+				if((board[i][j] == pieceColor) && (board[i+1][j+1] == pieceColor) && (board[i+2][j+2] == pieceColor) && (board[i+3][j+3] == pieceColor)) {
 					return true;
 				}
 			}
@@ -199,10 +199,10 @@ public class Board {
 	
 	private static boolean checkRightDiagonalWinner(String pieceColor) {
 
-		for (int i = 5; i < boardHeight - 3; i--) {
-			for(int j = 4; j < 0; j--) {
+		for (int i = 0; i <= 2; i++) {
+			for(int j = 3; j <= 6; j++) {
 				
-				if((board[i][j] == pieceColor) && (board[i+1][j+1] == pieceColor) && (board[i+2][j+2] == pieceColor) && (board[i+3][i+3] == pieceColor)) {
+				if((board[i][j] == pieceColor) && (board[i+1][j-1] == pieceColor) && (board[i+2][j-2] == pieceColor) && (board[i+3][j-3] == pieceColor)) {
 				return true;
 				}				
 			}
