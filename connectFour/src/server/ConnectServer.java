@@ -87,16 +87,16 @@ public class ConnectServer {
 				
 				while(!valid) {
 				try {
-					System.out.print("Choose a column (0 - 6): ");
+					System.out.print("Choose a column (1 - 7): ");
 					place = placeInput.nextInt();
 					valid  = true;
 				
-				if(place > 6 || place < 0) {
-					System.out.println("Please choose a column between (0 - 6): ");
+				if(place - 1 > 6 || place - 1 < 0) {
+					System.out.println("Please choose a column between (1 - 7): ");
 					valid = false;
 				}
 				
-				else if(Board.checkDropPiece(place) == false) {
+				else if(Board.checkDropPiece(place - 1) == false) {
 					System.out.println("Column is full, please choose a different column");
 					valid = false;
 				}
@@ -109,7 +109,7 @@ public class ConnectServer {
 				
 				}
 				
-				String playerColumn = Integer.toString(place);
+				String playerColumn = Integer.toString(place - 1);
 				byte[] sendColumn = playerColumn.getBytes();
 				
 				DatagramPacket sendPlayerColumn = new DatagramPacket(sendColumn, sendColumn.length, receivePacket.getAddress(), receivePacket.getPort());
