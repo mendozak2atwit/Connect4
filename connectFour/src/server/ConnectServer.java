@@ -30,6 +30,9 @@ public class ConnectServer {
 			 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
              serverSocket.receive(receivePacket);
              
+             String response1 = new String(receivePacket.getData(), 0, receivePacket.getLength());
+             System.out.print(response1);
+             
              // received
              System.out.println("Successfully connected to port!");
              System.out.print("Your color is red!");
@@ -47,7 +50,7 @@ public class ConnectServer {
 			// receive
 			while(Board.winner == false) {
 				if(playerTurn  == playerTwoColor) {
-					System.out.print("Yellow's Turn!");
+					System.out.println("Yellow's Turn!");
 					System.out.println("Current Board: ");
 					Board.printBoard();
 					
@@ -57,7 +60,7 @@ public class ConnectServer {
 					DatagramPacket receiveColumnData = new DatagramPacket(receiveColumn, receiveColumn.length);
 					serverSocket.receive(receiveColumnData);
 					
-					String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
+					String response = new String(receiveColumnData.getData(), 0, receiveColumnData.getLength());
 					Integer numResponse = Integer.valueOf(response);
 					int playerTwoPlace = numResponse;
 					
@@ -67,16 +70,18 @@ public class ConnectServer {
 					Board.printBoard();
 					
 					Board.checkWinner(playerTurn);
-					if(Board.winner = false) {
+					if(Board.winner == false) {
 						playerTurn = playerOneColor;
 					}
+					
+					valid = false;
 					
 				}else {
 				Scanner placeInput = new Scanner(System.in); 
 				int place = 0;
 				
 				System.out.println();
-				System.out.print("Red's Turn!");
+				System.out.println("Red's Turn!");
 				Board.printBoard();
 				
 				while(!valid) {
@@ -88,7 +93,6 @@ public class ConnectServer {
 				if(place > 6 || place < 0) {
 					System.out.println("Please choose a column between (0 - 6): ");
 					valid = false;
-					break;
 				}
 				
 				if(Board.checkDropPiece(place) == false) {
@@ -107,14 +111,15 @@ public class ConnectServer {
 				
 				DatagramPacket sendPlayerColumn = new DatagramPacket(sendColumn, sendColumn.length, receivePacket.getAddress(), receivePacket.getPort());
 				 
-				serverSocket.send(sendPacket);
+				serverSocket.send(sendPlayerColumn);
 				
 				Board.dropPiece(playerTurn, place);
 				System.out.println("New Board: ");
 				Board.printBoard();
 				
 				Board.checkWinner(playerTurn);
-				if(Board.winner = false) {
+				
+				if(Board.winner == false) {
 					playerTurn = playerTwoColor;
 				}
 				
@@ -123,6 +128,7 @@ public class ConnectServer {
 			
 		}
 		
+			
 		if(playerTurn == playerOneColor) {
 			System.out.println("Red wins!");
 			
