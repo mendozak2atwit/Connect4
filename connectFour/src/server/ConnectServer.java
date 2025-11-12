@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import connectFour.Board;
@@ -45,14 +46,93 @@ public class ConnectServer {
              
 			// receive
 			while(Board.winner == false) {
+				if(playerTurn  == playerTwoColor) {
+					System.out.print("Yellow's Turn!");
+					System.out.println("Current Board: ");
+					Board.printBoard();
+					
+					System.out.println("Waiting for Yellow to choose a column. . . ");
+					
+					byte[] receiveColumn = new byte[1024];
+					DatagramPacket receiveColumnData = new DatagramPacket(receiveColumn, receiveColumn.length);
+					serverSocket.receive(receiveColumnData);
+					
+					String response = new String(receivePacket.getData(), 0, receivePacket.getLength());
+					Integer numResponse = Integer.valueOf(response);
+					int playerTwoPlace = numResponse;
+					
+					Board.dropPiece(playerTurn, playerTwoPlace);
+					
+					System.out.print("Current Board: ");
+					Board.printBoard();
+					
+					Board.checkWinner(playerTurn);
+					if(Board.winner = false) {
+						playerTurn = playerOneColor;
+					}
+					
+				}else {
 				Scanner placeInput = new Scanner(System.in); 
+				int place = 0;
 				
 				System.out.println();
+				System.out.print("Red's Turn!");
 				Board.printBoard();
-				Board.winner = true;
+				
+				while(!valid) {
+				try {
+				System.out.print("Choose a column (0 - 6): ");
+				place = placeInput.nextInt();
+				valid  = true;
+				
+				if(place > 6 || place < 0) {
+					System.out.println("Please choose a column between (0 - 6): ");
+					valid = false;
+					break;
+				}
+				
+				if(Board.checkDropPiece(place) == false) {
+					System.out.println("Column is full, please choose a different column");
+					valid = false;
+				}
+				
+				}catch(InputMismatchException e) {
+					System.out.println("Please use a viable input");
+					System.out.println();
+					placeInput.next();
+				}
+				
+				String playerColumn = Integer.toString(place);
+				byte[] sendColumn = playerColumn.getBytes();
+				
+				DatagramPacket sendPlayerColumn = new DatagramPacket(sendColumn, sendColumn.length, receivePacket.getAddress(), receivePacket.getPort());
+				 
+				serverSocket.send(sendPacket);
+				
+				Board.dropPiece(playerTurn, place);
+				System.out.println("New Board: ");
+				Board.printBoard();
+				
+				Board.checkWinner(playerTurn);
+				if(Board.winner = false) {
+					playerTurn = playerTwoColor;
+				}
+				
+				}
 			}
 			
+		}
+		
+		if(playerTurn == playerOneColor) {
+			System.out.println("Red wins!");
 			
+		}else {
+			System.out.print("Yellow wins!");
+
+		}
+		
+		System.out.println("Winning Board:");
+		Board.printBoard();
 			
 		}catch (SocketException e) {
 			System.err.println("Socket error: " + e.getMessage());
