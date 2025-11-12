@@ -19,7 +19,6 @@ public class Test {
 		
 		while(Board.winner == false) {
 		
-			@SuppressWarnings("resource")
 		Scanner placeInput = new Scanner(System.in);
 		int place = 0;
 		
