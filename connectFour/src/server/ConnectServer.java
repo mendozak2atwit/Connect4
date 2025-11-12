@@ -70,6 +70,7 @@ public class ConnectServer {
 					Board.printBoard();
 					
 					Board.checkWinner(playerTurn);
+					
 					if(Board.winner == false) {
 						playerTurn = playerOneColor;
 					}
@@ -86,16 +87,16 @@ public class ConnectServer {
 				
 				while(!valid) {
 				try {
-				System.out.print("Choose a column (0 - 6): ");
-				place = placeInput.nextInt();
-				valid  = true;
+					System.out.print("Choose a column (0 - 6): ");
+					place = placeInput.nextInt();
+					valid  = true;
 				
 				if(place > 6 || place < 0) {
 					System.out.println("Please choose a column between (0 - 6): ");
 					valid = false;
 				}
 				
-				if(Board.checkDropPiece(place) == false) {
+				else if(Board.checkDropPiece(place) == false) {
 					System.out.println("Column is full, please choose a different column");
 					valid = false;
 				}
@@ -104,6 +105,8 @@ public class ConnectServer {
 					System.out.println("Please use a viable input");
 					System.out.println();
 					placeInput.next();
+				}
+				
 				}
 				
 				String playerColumn = Integer.toString(place);
@@ -118,12 +121,12 @@ public class ConnectServer {
 				Board.printBoard();
 				
 				Board.checkWinner(playerTurn);
+				placeInput.close();
 				
 				if(Board.winner == false) {
 					playerTurn = playerTwoColor;
 				}
 				
-				}
 			}
 			
 		}
@@ -133,7 +136,7 @@ public class ConnectServer {
 			System.out.println("Red wins!");
 			
 		}else {
-			System.out.print("Yellow wins!");
+			System.out.println("Yellow wins!");
 
 		}
 		
