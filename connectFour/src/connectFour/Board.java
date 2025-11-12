@@ -1,19 +1,15 @@
 package connectFour;
 
-import java.util.Arrays;
-
 public class Board {
 	
 	static String[][] board = new String[6][7];
 	static int boardHeight = 6;
 	static int boardLength = 7;
 	static char latestPiece;
-	static boolean winner = false;
-	static int currentTurn = 0; //0 means first player (RED) 1 means second (YELLOW)
+	public static boolean winner = false;
+	public static int currentTurn = 0; //0 means first player (RED) 1 means second (YELLOW)
 	
 	public Board() {
-		
-		//board = new char[6][7];
 		
 	} //end Board()
 	
@@ -69,9 +65,9 @@ public class Board {
 	} //end enum pieceColor
 	
 	//Checks to see if there's four of the same color in a row, vertically, horizontally, and 
-	public static void checkWinner(String playerOneColor) {
+	public static void checkWinner(String playerColor) {
 		
-		if(checkWinnerVertically(playerOneColor)  || checkWinnerHorizontally(playerOneColor)){
+		if(checkWinnerVertically(playerColor)  || checkWinnerHorizontally(playerColor) || checkLeftDiagonalWinner(playerColor) || checkRightDiagonalWinner(playerColor)){
 			winner = true;
 		}
 	} //end checkWinner
@@ -182,64 +178,78 @@ public class Board {
 					
 				}
 			}
-		
 	} //end for
 	
 	return false;
 		
 	} //end checkWinnerHorizontally
 	
+	private static boolean checkLeftDiagonalWinner(String pieceColor) {
+
+		for (int i = 5; i < boardHeight - 3; i--) {
+			for(int j = 4; j < 0; j--) {
+				
+				if((board[i][j] == pieceColor) && (board[i-1][j+1] == pieceColor) && (board[i-2][j+2] == pieceColor) && (board[i-3][i+3] == pieceColor)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private static boolean checkRightDiagonalWinner(String pieceColor) {
+
+		for (int i = 5; i < boardHeight - 3; i--) {
+			for(int j = 4; j < 0; j--) {
+				
+				if((board[i][j] == pieceColor) && (board[i+1][j+1] == pieceColor) && (board[i+2][j+2] == pieceColor) && (board[i+3][i+3] == pieceColor)) {
+				return true;
+				}				
+			}
+		}
+		return false;
+	}
+	
 	//Have to figure out an algorithm to figure this out ( this one will be hard )
 	//idea 1: when a colored piece is found on the board, check across to see if that same color piece appears 4 in a row
 	
-	private static boolean checkWinnerAcross(String color) {
-
-		int counter = 0;
-		
-		for(int h = 0; h < boardHeight; h++) {
-			for(int l = 0; l < boardLength; l++) {
-				if(board[h][l] == color) {
-					
-					counter = 0;
-					int consecuativeLength = l ;
-					int consecuativeHeight = h ;
-					boolean isConsecuative = true;
-					
-					while (isConsecuative) {
-						
-						if(board[consecuativeLength+1][consecuativeHeight+1] == color || board[consecuativeLength+1][consecuativeHeight-1] == color) {
-							counter++;
-						}
-						
-						else {
-							counter = 0;
-							isConsecuative = false;	
-						}
-						
-						consecuativeHeight++;;
-
-						consecuativeLength++;
-					
-					}
-			
-				}
-				
-				else {
-					counter = 0;
-					
-				}
-				
-				if(counter == 4) {
-					return true;
-					
-				}
-			}
-		
-		return false;
-
-	}
-		return true;
-	} //end checkWinnerAcross
-
-	//use for debugging
-} //end
+	/*
+	 * private static boolean checkWinnerAcross(String color) {
+	 * 
+	 * int counter = 0;
+	 * 
+	 * for(int h = 0; h < boardHeight; h++) { for(int l = 0; l < boardLength; l++) {
+	 * if(board[h][l] == color) {
+	 * 
+	 * counter = 0; int consecuativeLength = l ; int consecuativeHeight = h ;
+	 * boolean isConsecuative = true;
+	 * 
+	 * while (isConsecuative) {
+	 * 
+	 * if(board[consecuativeLength+1][consecuativeHeight+1] == color ||
+	 * board[consecuativeLength+1][consecuativeHeight-1] == color) { counter++; }
+	 * 
+	 * else { counter = 0; isConsecuative = false; }
+	 * 
+	 * consecuativeHeight++;;
+	 * 
+	 * consecuativeLength++;
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 * else { counter = 0;
+	 * 
+	 * }
+	 * 
+	 * if(counter == 4) { return true;
+	 * 
+	 * } }
+	 * 
+	 * return false;
+	 * 
+	 * } return true; } //end checkWinnerAcross
+	 * 
+	 * //use for debugging
+	 */} //end
