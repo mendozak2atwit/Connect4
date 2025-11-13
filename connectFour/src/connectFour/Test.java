@@ -19,7 +19,6 @@ public class Test {
 		
 		while(Board.winner == false) {
 		
-			@SuppressWarnings("resource")
 		Scanner placeInput = new Scanner(System.in);
 		int place = 0;
 		
@@ -32,17 +31,17 @@ public class Test {
 		
 			try {
 		
-		System.out.print("Choose a column (0 - 6): ");
+		System.out.print("Choose a column (1 - 7): ");
 		place = placeInput.nextInt();
 		valid = true;
 		
-		if(place > 6 || place < 0) {
-			System.out.println("Please choose a column between (0 - 6)");
+		if(place - 1 > 6 || place - 1 < 0) {
+			System.out.println("Please choose a column between (1 - 7)");
 			valid = false;
 		}
 		
 		}catch (InputMismatchException e) {
-			System.out.println("Please use a viable input (0 - 6)");
+			System.out.println("Please use a viable input (1 - 7)");
 			System.out.println();
 			placeInput.next();
 			
@@ -53,14 +52,14 @@ public class Test {
 		while(columnIntegrity == false) {
 		
 		try {
-			Board.checkDropPiece(place);
+			Board.checkDropPiece(place - 1);
 		}catch (IndexOutOfBoundsException e) {
 			System.out.println("The number is too large!");
 		}
 		
 		
-		if(Board.checkDropPiece(place) == true && Board.checkFullBoard() == false) {
-			Board.dropPiece(playerTurn, place);
+		if(Board.checkDropPiece(place - 1) == true && Board.checkFullBoard() == false) {
+			Board.dropPiece(playerTurn, place - 1);
 			System.out.println("passes");
 			columnIntegrity = true;
 			
