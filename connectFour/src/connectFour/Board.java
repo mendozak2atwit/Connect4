@@ -81,12 +81,12 @@ public class Board {
 		for(int h = 0; h < boardHeight; h++) {
 			for(int l = 0; l < boardLength; l++) {
 				if(board[h][l] == empty) {
-					return false;
+					return true;
 				}
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	//checks if a piece can be placed in the specific part of the board (makes sure that the column is not full)
