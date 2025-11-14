@@ -137,6 +137,7 @@ public class Board {
 		int counter = 0;
 		
 		for(int h = 0; h < boardHeight; h++) {
+			counter = 0;
 			for(int l = 0; l < boardLength; l++) {
 				if(board[h][l] == color) {
 					counter++;
@@ -164,6 +165,7 @@ public class Board {
 		int counter = 0;
 		
 		for(int l = 0; l < boardLength; l++) {
+			counter = 0;
 			for(int h = 0; h < boardHeight; h++) {
 				if(board[h][l] == color) {
 					counter++;
