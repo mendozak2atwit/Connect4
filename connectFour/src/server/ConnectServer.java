@@ -75,6 +75,10 @@ public class ConnectServer {
 						playerTurn = playerOneColor;
 					}
 					
+					if(Board.checkFullBoard() == true) {
+						Board.winner = true;
+					}
+					
 					valid = false;
 					
 				}else {
@@ -124,6 +128,11 @@ public class ConnectServer {
 				
 				if(Board.winner == false) {
 					playerTurn = playerTwoColor;
+					
+				if(Board.checkFullBoard() == true) {
+					Board.winner = true;
+				}
+				
 				}
 				
 			}
@@ -131,15 +140,19 @@ public class ConnectServer {
 		}
 		
 			
-		if(playerTurn == playerOneColor) {
+		if(Board.checkFullBoard() == true){
+				System.out.println("It's a tie! Nobody Wins!");		
+			
+		}else if(playerTurn == playerOneColor) {
 			System.out.println("Red wins!");
 			
-		}else {
+			
+		}else{
 			System.out.println("Yellow wins!");
 
 		}
 		
-		System.out.println("Winning Board:");
+		System.out.println("Final Board:");
 		Board.printBoard();
 			
 		}catch (SocketException e) {
