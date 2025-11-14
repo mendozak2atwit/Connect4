@@ -97,13 +97,12 @@ public class ConnectServer {
 				}
 				
 				else if(Board.checkDropPiece(place - 1) == false) {
-					System.out.println("Column is full, please choose a different column");
+					System.out.println("Column " + (place - 1) + " is full, please choose a different column");
 					valid = false;
 				}
 				
 				}catch(InputMismatchException e) {
 					System.out.println("Please use a viable input");
-					System.out.println();
 					placeInput.next();
 				}
 				
